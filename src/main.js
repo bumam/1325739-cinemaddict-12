@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const TASK_COUNT = 5;
 const TASK_COUNT_MINI = 2;
