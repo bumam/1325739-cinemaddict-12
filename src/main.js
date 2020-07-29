@@ -7,7 +7,7 @@ const createUserStatusTemplate = () => {
   return `<section class="header__profile profile">
     <p class="profile__rating">Movie Buff</p>
     <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-  </section>`
+  </section>`;
 };
 
 const createSiteMenuTemplate = () => {
@@ -41,7 +41,7 @@ const createSiteMenuTemplate = () => {
       <h2 class="films-list__title">Most commented</h2>
         <div class="films-list__container"></div>
     </section>
-</section>`
+</section>`;
 };
 
 const createFilmCardTemplate = () => {
@@ -61,17 +61,17 @@ const createFilmCardTemplate = () => {
     <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
     <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
   </form>
-</article>`
+</article>`;
 };
 
 const createBtnShowMoreTemplate = () => {
-  return `<button class="films-list__show-more">Show more</button>`
+  return `<button class="films-list__show-more">Show more</button>`;
 };
 
 const createFilmsAmountTemplate = () => {
   return `<section class="footer__statistics">
     <p>130 291 movies inside</p>
-  </section>`
+  </section>`;
 };
 
 const render = (container, template, place) => {
@@ -90,7 +90,7 @@ const taskListElement = boardElement.querySelector(`.films-list__container`);
 
 for (let i = 0; i < TASK_COUNT; i++) {
   render(taskListElement, createFilmCardTemplate(), `beforeend`);
-};
+}
 
 const filmListElement = boardElement.querySelector(`.films-list`);
 
@@ -103,7 +103,7 @@ for (let miniFilmList of filmListExtraElements) {
   for (let i = 0; i < TASK_COUNT_MINI; i++) {
     render(taskListExtraElement, createFilmCardTemplate(), `beforeend`);
   }
-};
+}
 
 const footer = document.querySelector(`.footer`);
 const footerStat = footer.querySelector(`.footer__statistics`);
