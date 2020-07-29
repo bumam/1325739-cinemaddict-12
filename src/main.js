@@ -1,3 +1,5 @@
+'use strict'
+
 const TASK_COUNT = 5;
 const TASK_COUNT_MINI = 2;
 
@@ -6,7 +8,7 @@ const createUserStatusTemplate = () => {
     <p class="profile__rating">Movie Buff</p>
     <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
   </section>`
-}
+};
 
 const createSiteMenuTemplate = () => {
   return `<nav class="main-navigation">
@@ -40,7 +42,7 @@ const createSiteMenuTemplate = () => {
         <div class="films-list__container"></div>
     </section>
 </section>`
-}
+};
 
 const createFilmCardTemplate = () => {
   return `<article class="film-card">
@@ -60,17 +62,17 @@ const createFilmCardTemplate = () => {
     <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
   </form>
 </article>`
-}
+};
 
 const createBtnShowMoreTemplate = () => {
   return `<button class="films-list__show-more">Show more</button>`
-}
+};
 
 const createFilmsAmountTemplate = () => {
   return `<section class="footer__statistics">
     <p>130 291 movies inside</p>
   </section>`
-}
+};
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -88,7 +90,7 @@ const taskListElement = boardElement.querySelector(`.films-list__container`);
 
 for (let i = 0; i < TASK_COUNT; i++) {
   render(taskListElement, createFilmCardTemplate(), `beforeend`);
-}
+};
 
 const filmListElement = boardElement.querySelector(`.films-list`);
 
@@ -96,12 +98,12 @@ render(filmListElement, createBtnShowMoreTemplate(), `beforeend`);
 
 const filmListExtraElements = boardElement.querySelectorAll(`.films-list--extra`);
 
-for (miniFilmList of filmListExtraElements) {
+for (let miniFilmList of filmListExtraElements) {
   const taskListExtraElement = miniFilmList.querySelector(`.films-list__container`);
   for (let i = 0; i < TASK_COUNT_MINI; i++) {
     render(taskListExtraElement, createFilmCardTemplate(), `beforeend`);
   }
-}
+};
 
 const footer = document.querySelector(`.footer`);
 const footerStat = footer.querySelector(`.footer__statistics`);
