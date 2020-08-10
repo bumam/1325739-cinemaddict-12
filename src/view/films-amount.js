@@ -1,5 +1,7 @@
-export const createFilmsAmountTemplate = () => {
+export const createFilmsAmountTemplate = (card) => {
+  const filmsAmount = card.length;
+
   return `<section class="footer__statistics">
-    <p>130 291 movies inside</p>
+    <p>${filmsAmount} movies inside</p>
   </section>`;
 };
