@@ -78,15 +78,15 @@ export const getFilmsDetailsTemplate = (card, comment) => {
   const actors = createPeoples(peoples);
 
 
-  const genre = (spanGenres.length > 1) ?
+  const genre = spanGenres.length > 1 ?
     `Genres` :
     `Genre`;
 
-  const writerEnd = (writers.length > 1) ?
+  const writerEnd = writers.length > 1 ?
     `Writers` :
     `Writer`;
 
-  const actorEnd = (actors.length > 1) ?
+  const actorEnd = actors.length > 1 ?
     `Actors` :
     `Actor`;
 

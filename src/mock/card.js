@@ -74,8 +74,10 @@ const generateDescription = () => {
     `In rutrum ac purus sit amet tempus.`
   ];
 
+  const CARD_AMOUNT = 5;
+
   const array = [];
-  for (let i = 5; i > 0; i--) {
+  for (let i = CARD_AMOUNT; i > 0; i--) {
     array.push(descriptions[Math.floor(Math.random() * descriptions.length)]);
   }
 

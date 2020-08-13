@@ -23,7 +23,7 @@ import {
   generateComment
 } from "./mock/comment.js";
 import {
-  generateFilter
+  generateFilters
 } from "./mock/filter.js";
 
 const CARD_COUNT = 20;
@@ -36,7 +36,7 @@ const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const filters = generateFilter(cards);
+const filters = generateFilters(cards);
 
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
@@ -99,24 +99,33 @@ const comments = boardElement.querySelectorAll(`.film-card__comments`);
 const popup = document.querySelector(`.film-details`);
 const popupClose = popup.querySelector(`.film-details__close-btn`);
 
+
+const showPopup = (element) => {
+  element.style.display = `block`;
+};
+
+const hidePopup = (element) => {
+  element.style.display = `none`;
+};
+
 popupClose.addEventListener(`click`, () => {
-  popup.style.display = `none`;
+  showPopup(popup);
 });
 
 for (let poster of posters) {
   poster.addEventListener(`click`, () => {
-    popup.style.display = `block`;
+    hidePopup(popup);
   });
 }
 
 for (let title of titles) {
   title.addEventListener(`click`, () => {
-    popup.style.display = `block`;
+    showPopup(popup);
   });
 }
 
 for (let comment of comments) {
   comment.addEventListener(`click`, () => {
-    popup.style.display = `block`;
+    hidePopup(popup);
   });
 }

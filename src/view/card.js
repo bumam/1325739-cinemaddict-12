@@ -13,9 +13,11 @@ export const createFilmCardTemplate = (card) => {
     isWishlist
   } = card;
 
+  const MAX_TEXT_LENGTH = 140;
+
   const getCutDescription = (str) => {
-    if (str.length >= 140) {
-      str = str.substring(0, 139) + `...`;
+    if (str.length >= MAX_TEXT_LENGTH) {
+      str = str.substring(0, MAX_TEXT_LENGTH - 1) + `...`;
     }
     return str;
   };
