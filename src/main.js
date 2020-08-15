@@ -38,6 +38,7 @@ const render = (container, template, place) => {
 
 const filters = generateFilters(cards);
 
+
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 

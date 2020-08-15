@@ -8,10 +8,11 @@ const cardToFilterMap = {
     .filter((card) => card.isWatchlist).length,
 };
 
+
 export const generateFilters = (cards) => {
-  return Object.entries(cardToFilterMap).map(([filterName, countcards]) => {
-    return {
-      [filterName]: countcards(cards),
-    };
+  let result = {};
+  Object.entries(cardToFilterMap).forEach(([filterName, countcards]) => {
+    result[filterName] = countcards(cards);
   });
+  return result;
 };
