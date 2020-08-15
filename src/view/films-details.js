@@ -1,8 +1,10 @@
 import {
   getRandomIntInclusive,
+  createElement
 } from "../utils.js";
 
-export const getFilmsDetailsTemplate = (card, comment) => {
+
+const createFilmPopupTemplate = (card, comment) => {
   const {
     title,
     poster,
@@ -90,8 +92,7 @@ export const getFilmsDetailsTemplate = (card, comment) => {
     `Actors` :
     `Actor`;
 
-  return `<section class="film-details" style="
-  display: none;>
+  return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
     <div class="form-details__top-container">
       <div class="film-details__close">
@@ -209,3 +210,28 @@ export const getFilmsDetailsTemplate = (card, comment) => {
 </section>
 `;
 };
+
+
+export default class FilmPopup {
+  constructor(card, comment) {
+    this._com = comment;
+    this._film = card;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmPopupTemplate(this._film, this._com);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
