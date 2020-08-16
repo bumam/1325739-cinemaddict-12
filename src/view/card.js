@@ -1,4 +1,8 @@
-export const createFilmCardTemplate = (card) => {
+import {
+  createElement
+} from "../utils.js";
+
+const createFilmCardTemplate = (card) => {
   const {
     title,
     poster,
@@ -56,3 +60,28 @@ export const createFilmCardTemplate = (card) => {
   </form>
 </article>`;
 };
+
+
+export default class Task {
+  constructor(card) {
+    this._card = card;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmCardTemplate(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
