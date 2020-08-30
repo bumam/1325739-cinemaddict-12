@@ -9,6 +9,7 @@ import FilmPopupView from "./view/films-details.js";
 import ExtraFilms from "./view/films-extra.js";
 import FilmsAmount from "./view/films-amount.js";
 import Container from "./view/container.js";
+import NoFilmsView from "./view/no-films.js";
 
 import {
   generateCard
@@ -93,53 +94,57 @@ const renderBoard = (boardContainer, boardCards, cardComment) => {
   const boardComponent = new BoardView();
   render(boardContainer, boardComponent.getElement(), RenderPosition.BEFOREEND);
 
-  const filmListComponent = new FilmListView();
-  render(boardComponent.getElement(), filmListComponent.getElement(), RenderPosition.BEFOREEND);
+  if (boardCards.length === 0) {
 
-  const containerComponent = new Container();
-  render(filmListComponent.getElement(), containerComponent.getElement(), RenderPosition.BEFOREEND);
+    render(siteMainElement, new NoFilmsView().getElement(), RenderPosition.BEFOREEND);
+  } else {
+    const filmListComponent = new FilmListView();
+    render(boardComponent.getElement(), filmListComponent.getElement(), RenderPosition.BEFOREEND);
 
-  boardCards
-    .slice(0, Math.min(cards.length, CARD_COUNT_PER_STEP))
-    .forEach((boardCard) => renderCard(containerComponent.getElement(), boardCard, cardComment));
-
-
-  if (boardCards.length > CARD_COUNT_PER_STEP) {
-    let renderedCardCount = CARD_COUNT_PER_STEP;
-
-    const loadMoreButtonComponent = new LoadMoreButtonView();
-
-    render(filmListComponent.getElement(), loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
-
-    loadMoreButtonComponent.getElement().addEventListener(`click`, (evt) => {
-      evt.preventDefault();
-      cards
-        .slice(renderedCardCount, renderedCardCount + CARD_COUNT_PER_STEP)
-        .forEach((boardCard) => renderCard(containerComponent.getElement(), boardCard, cardComment));
-
-      renderedCardCount += CARD_COUNT_PER_STEP;
-
-      if (renderedCardCount >= boardCards.length) {
-        loadMoreButtonComponent.getElement().remove();
-        loadMoreButtonComponent.removeElement();
-      }
-    });
-  }
-
-  render(boardComponent.getElement(), new ExtraFilms(header1).getElement(), RenderPosition.BEFOREEND);
-  render(boardComponent.getElement(), new ExtraFilms(header2).getElement(), RenderPosition.BEFOREEND);
-
-  const filmListExtraElements = document.querySelectorAll(`.films-list--extra`);
-
-  for (let miniFilmList of filmListExtraElements) {
-    const cardListExtraElement = miniFilmList.querySelector(`.films-list__container`);
+    const containerComponent = new Container();
+    render(filmListComponent.getElement(), containerComponent.getElement(), RenderPosition.BEFOREEND);
 
     boardCards
-      .slice(0, Math.min(cards.length, CARD_COUNT_MINI))
-      .forEach((boardCard) => renderCard(cardListExtraElement, boardCard, cardComment));
+      .slice(0, Math.min(cards.length, CARD_COUNT_PER_STEP))
+      .forEach((boardCard) => renderCard(containerComponent.getElement(), boardCard, cardComment));
+
+
+    if (boardCards.length > CARD_COUNT_PER_STEP) {
+      let renderedCardCount = CARD_COUNT_PER_STEP;
+
+      const loadMoreButtonComponent = new LoadMoreButtonView();
+
+      render(filmListComponent.getElement(), loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+
+      loadMoreButtonComponent.getElement().addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+        cards
+          .slice(renderedCardCount, renderedCardCount + CARD_COUNT_PER_STEP)
+          .forEach((boardCard) => renderCard(containerComponent.getElement(), boardCard, cardComment));
+
+        renderedCardCount += CARD_COUNT_PER_STEP;
+
+        if (renderedCardCount >= boardCards.length) {
+          loadMoreButtonComponent.getElement().remove();
+          loadMoreButtonComponent.removeElement();
+        }
+      });
+    }
+
+    render(boardComponent.getElement(), new ExtraFilms(header1).getElement(), RenderPosition.BEFOREEND);
+    render(boardComponent.getElement(), new ExtraFilms(header2).getElement(), RenderPosition.BEFOREEND);
+
+    const filmListExtraElements = document.querySelectorAll(`.films-list--extra`);
+
+    for (let miniFilmList of filmListExtraElements) {
+      const cardListExtraElement = miniFilmList.querySelector(`.films-list__container`);
+
+      boardCards
+        .slice(0, Math.min(cards.length, CARD_COUNT_MINI))
+        .forEach((boardCard) => renderCard(cardListExtraElement, boardCard, cardComment));
+    }
 
   }
-
 };
 
 render(siteHeaderElement, new UserStatusView().getElement(), RenderPosition.BEFOREEND);

@@ -2,13 +2,12 @@ import {
   createElement
 } from "../utils.js";
 
-const createSortTemplate = () => {
-  return `<ul class="sort">
-  <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
-  <li><a href="#" class="sort__button">Sort by date</a></li>
-  <li><a href="#" class="sort__button">Sort by rating</a></li>
-</ul>
-`;
+const createNoFilmsTemplate = () => {
+  return `<section class="films">
+  <section class="films-list">
+    <h2 class="films-list__title">There are no movies in our database</h2>
+  </section>
+</section>`;
 };
 
 export default class Sort {
@@ -17,13 +16,12 @@ export default class Sort {
   }
 
   getTemplate() {
-    return createSortTemplate();
+    return createNoFilmsTemplate();
   }
 
   getElement() {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
-
     }
     return this._element;
   }
