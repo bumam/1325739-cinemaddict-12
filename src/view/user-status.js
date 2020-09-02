@@ -1,6 +1,4 @@
-import {
-  createElement
-} from "../utils.js";
+import AbstractView from "./abstract.js";
 
 const createUserStatusTemplate = () => {
   return `<section class="header__profile profile">
@@ -9,24 +7,11 @@ const createUserStatusTemplate = () => {
   </section>`;
 };
 
-export default class SiteMenu {
-  constructor() {
-    this._element = null;
-  }
+export default class SiteMenu extends AbstractView {
 
   getTemplate() {
     return createUserStatusTemplate();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
 
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }

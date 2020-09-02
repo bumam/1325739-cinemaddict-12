@@ -1,6 +1,6 @@
 import {
   getRndElement
-} from "../utils.js";
+} from "../utils/common.js";
 
 const smiles = [
   `angry`,

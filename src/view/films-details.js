@@ -1,7 +1,8 @@
 import {
-  getRandomIntInclusive,
-  createElement
-} from "../utils.js";
+  getRandomIntInclusive
+} from "../utils/common.js";
+
+import AbstractView from "./abstract.js";
 
 
 const createFilmPopupTemplate = (card, comment) => {
@@ -212,26 +213,26 @@ const createFilmPopupTemplate = (card, comment) => {
 };
 
 
-export default class FilmPopup {
+export default class FilmPopup extends AbstractView {
   constructor(card, comment) {
+    super();
     this._com = comment;
     this._film = card;
-    this._element = null;
+    this._closePopupClickHandler = this._closePopupClickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmPopupTemplate(this._film, this._com);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _closePopupClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setClosePopupClickHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector(`.film-details__close`).addEventListener(`click`, this._closePopupClickHandler);
   }
+
 }

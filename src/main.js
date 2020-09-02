@@ -1,15 +1,15 @@
 import UserStatusView from "./view/user-status.js";
-import SortView from "./view/sort.js";
-import BoardView from "./view/film-board.js";
-import FilmListView from "./view/film-list.js";
-import LoadMoreButtonView from "./view/button-load-more.js";
+
 import FilterView from "./view/filter.js";
-import CardView from "./view/card.js";
-import FilmPopupView from "./view/films-details.js";
-import ExtraFilms from "./view/films-extra.js";
+
 import FilmsAmount from "./view/films-amount.js";
 import Container from "./view/container.js";
-import NoFilmsView from "./view/no-films.js";
+
+import BoardPresenter from "./presenter/board.js";
+import {
+  render,
+  RenderPosition
+} from "./utils/render.js";
 
 import {
   generateCard
@@ -20,14 +20,8 @@ import {
 import {
   generateFilters
 } from "./mock/filter.js";
-import {
-  render,
-  RenderPosition
-} from "./utils.js";
-
 
 const CARD_COUNT = 20;
-const CARD_COUNT_PER_STEP = 5;
 const CARD_COUNT_MINI = 2;
 
 const cards = new Array(CARD_COUNT).fill().map(generateCard);
@@ -44,7 +38,9 @@ const siteMainElement = document.querySelector(`.main`);
 const bodyElement = document.querySelector(`body`);
 const siteFooterStatElement = document.querySelector(`.footer__statistics`);
 
-const renderCard = (filmListElement, card, comment) => {
+const boardPresenter = new BoardPresenter(siteMainElement);
+
+/*const renderCard = (filmListElement, card, comment) => {
   const taskComponent = new CardView(card);
   const filmPopup = new FilmPopupView(card, comment);
 
@@ -64,49 +60,50 @@ const renderCard = (filmListElement, card, comment) => {
     }
   };
 
-  taskComponent.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, () => {
+  taskComponent.setOpenPopupPicClickHandler(() => {
     addPopup();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  taskComponent.getElement().querySelector(`.film-card__title`).addEventListener(`click`, () => {
+  taskComponent.setOpenPopupTitleClickHandler(() => {
     addPopup();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  taskComponent.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, () => {
+  taskComponent.setOpenPopupCommentClickHandler(() => {
     addPopup();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  filmPopup.getElement().querySelector(`.film-details__close`).addEventListener(`click`, () => {
+  filmPopup.setClosePopupClickHandler(() => {
     removePopup();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
-  render(filmListElement, taskComponent.getElement(), RenderPosition.BEFOREEND);
+  render(filmListElement, taskComponent, RenderPosition.BEFOREEND);
 };
 
 const renderBoard = (boardContainer, boardCards, cardComment) => {
 
-  render(boardContainer, new SortView().getElement(), RenderPosition.BEFOREEND);
+ // render(boardContainer, new SortView(), RenderPosition.BEFOREEND);
 
   const boardComponent = new BoardView();
-  render(boardContainer, boardComponent.getElement(), RenderPosition.BEFOREEND);
+  render(boardContainer, boardComponent, RenderPosition.BEFOREEND);
 
-  if (boardCards.length === 0) {
+ if (boardCards.length === 0) {
 
-    render(siteMainElement, new NoFilmsView().getElement(), RenderPosition.BEFOREEND);
-  } else {
+  render(siteMainElement, new NoFilmsView(), RenderPosition.BEFOREEND);
+  } 
+  else {
     const filmListComponent = new FilmListView();
-    render(boardComponent.getElement(), filmListComponent.getElement(), RenderPosition.BEFOREEND);
+    render(boardComponent, filmListComponent, RenderPosition.BEFOREEND);
 
     const containerComponent = new Container();
-    render(filmListComponent.getElement(), containerComponent.getElement(), RenderPosition.BEFOREEND);
+    render(filmListComponent, containerComponent, RenderPosition.BEFOREEND);
 
     boardCards
       .slice(0, Math.min(cards.length, CARD_COUNT_PER_STEP))
-      .forEach((boardCard) => renderCard(containerComponent.getElement(), boardCard, cardComment));
+      .forEach((boardCard) => renderCard(containerComponent, boardCard, cardComment));
 
 
     if (boardCards.length > CARD_COUNT_PER_STEP) {
@@ -114,25 +111,25 @@ const renderBoard = (boardContainer, boardCards, cardComment) => {
 
       const loadMoreButtonComponent = new LoadMoreButtonView();
 
-      render(filmListComponent.getElement(), loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+      render(filmListComponent, loadMoreButtonComponent, RenderPosition.BEFOREEND);
 
-      loadMoreButtonComponent.getElement().addEventListener(`click`, (evt) => {
-        evt.preventDefault();
+      loadMoreButtonComponent.setClickHandler(() => {
+
         cards
           .slice(renderedCardCount, renderedCardCount + CARD_COUNT_PER_STEP)
-          .forEach((boardCard) => renderCard(containerComponent.getElement(), boardCard, cardComment));
+          .forEach((boardCard) => renderCard(containerComponent, boardCard, cardComment));
 
         renderedCardCount += CARD_COUNT_PER_STEP;
 
         if (renderedCardCount >= boardCards.length) {
-          loadMoreButtonComponent.getElement().remove();
+          loadMoreButtonComponent.remove();
           loadMoreButtonComponent.removeElement();
         }
       });
     }
 
-    render(boardComponent.getElement(), new ExtraFilms(header1).getElement(), RenderPosition.BEFOREEND);
-    render(boardComponent.getElement(), new ExtraFilms(header2).getElement(), RenderPosition.BEFOREEND);
+    render(boardComponent, new ExtraFilms(header1), RenderPosition.BEFOREEND);
+    render(boardComponent, new ExtraFilms(header2), RenderPosition.BEFOREEND);
 
     const filmListExtraElements = document.querySelectorAll(`.films-list--extra`);
 
@@ -145,12 +142,13 @@ const renderBoard = (boardContainer, boardCards, cardComment) => {
     }
 
   }
-};
+};*/
 
-render(siteHeaderElement, new UserStatusView().getElement(), RenderPosition.BEFOREEND);
+render(siteHeaderElement, new UserStatusView(), RenderPosition.BEFOREEND);
 
-render(siteMainElement, new FilterView(filters).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new FilterView(filters), RenderPosition.BEFOREEND);
 
-render(siteFooterStatElement, new FilmsAmount(cards).getElement(), RenderPosition.BEFOREEND);
+render(siteFooterStatElement, new FilmsAmount(cards), RenderPosition.BEFOREEND);
 
-renderBoard(siteMainElement, cards, comments);
+//renderBoard(siteMainElement, cards, comments);
+boardPresenter.init(siteMainElement, cards, comments);

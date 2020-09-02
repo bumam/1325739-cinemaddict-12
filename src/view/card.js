@@ -1,6 +1,4 @@
-import {
-  createElement
-} from "../utils.js";
+import AbstractView from "./abstract.js" ;
 
 const createFilmCardTemplate = (card) => {
   const {
@@ -62,26 +60,39 @@ const createFilmCardTemplate = (card) => {
 };
 
 
-export default class Task {
+export default class Task extends AbstractView {
   constructor(card) {
+    super();
     this._card = card;
-
-    this._element = null;
+    this._popupClickHandler = this._popupClickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._card);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _popupClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setOpenPopupCommentClickHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, this._popupClickHandler);
+  }
+
+  setOpenPopupClickHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, this._popupClickHandler);
+  }
+
+  setOpenPopupTitleClickHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector(`.film-card__title`).addEventListener(`click`, this._popupClickHandler);
+  }
+
+  setOpenPopupPicClickHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, this._popupClickHandler);
   }
 }

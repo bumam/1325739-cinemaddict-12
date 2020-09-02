@@ -2,7 +2,7 @@ import {
   getRandomIntInclusive,
   getRndElement,
   getRandomInteger
-} from "../utils.js";
+} from "../utils/common.js";
 
 const titles = [
   `The dance of life`,
