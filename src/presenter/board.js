@@ -7,6 +7,9 @@ import FilmPopupView from "../view/films-details.js";
 import LoadMoreButtonView from "../view/button-load-more.js";
 import Container from "../view/container.js";
 import ExtraFilms from "../view/films-extra.js";
+import {
+  generateComment
+} from "../mock/comment.js";
 
 import {
   sortRating,
@@ -15,7 +18,8 @@ import {
 } from "../const.js";
 import {
   render,
-  RenderPosition
+  RenderPosition,
+  remove
 } from "../utils/render.js";
 
 const CARD_COUNT_PER_STEP = 5;
@@ -23,6 +27,8 @@ const CARD_COUNT_MINI = 2;
 
 const header1 = `Top rated`;
 const header2 = `Most commented`;
+
+const mm = generateComment();
 
 export default class Board {
   constructor(boardContainer) {
@@ -41,10 +47,9 @@ export default class Board {
   init(cards, comments) {
     this._boardFilms = cards.slice();
     this._sourcedBoardCards = cards.slice();
-    this._renderSort();
+    this._renderSort(comments);
     render(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND); // board
     render(this._filmListComponent, this._containerComponent, RenderPosition.BEFOREEND); // films-list container
-
     this._renderBoard(comments);
   }
 
@@ -66,12 +71,8 @@ export default class Board {
     const cardComponent = new CardView(card);
     const filmPopup = new FilmPopupView(card, comment);
     const bodyElement = document.querySelector(`body`);
-
     const addPopup = () => {
-      bodyElement.appendChild(
-        filmPopup.getElement(),
-        cardComponent.getElement()
-      );
+      bodyElement.appendChild(filmPopup.getElement(), cardComponent.getElement());
     };
 
     const removePopup = () => {
@@ -107,17 +108,16 @@ export default class Board {
     });
 
     render(filmListElement, cardComponent, RenderPosition.BEFOREEND);
-    // созданиt и рендеринг
   }
 
-  _handleSortTypeChange(sortType, comments) {
+  _handleSortTypeChange(sortType) {
+
     if (this._currentSortType === sortType) {
       return;
     }
-
     this._sortCards(sortType);
     this._clearFllmList();
-    this._renderFilmList(comments);
+    this._renderFilmList(mm);
   }
 
   _renderSort() {
@@ -126,7 +126,8 @@ export default class Board {
   }
 
   _clearFllmList() {
-    this._filmListComponent.getElement().innerHTML = ``;
+    this._containerComponent.getElement().innerHTML = ``;
+    remove(this._loadMoreButtonComponent);
     this._renderedCardCount = CARD_COUNT_PER_STEP;
   }
 
@@ -145,25 +146,13 @@ export default class Board {
   }
 
   _renderExtraFilms(comments) {
-    render(
-      this._boardComponent,
-      new ExtraFilms(header1),
-      RenderPosition.BEFOREEND
-    );
-    render(
-      this._boardComponent,
-      new ExtraFilms(header2),
-      RenderPosition.BEFOREEND
-    );
+    render(this._boardComponent, new ExtraFilms(header1), RenderPosition.BEFOREEND);
+    render(this._boardComponent, new ExtraFilms(header2), RenderPosition.BEFOREEND);
 
-    const filmListExtraElements = document.querySelectorAll(
-      `.films-list--extra`
-    );
+    const filmListExtraElements = document.querySelectorAll(`.films-list--extra`);
 
     for (let miniFilmList of filmListExtraElements) {
-      const cardListExtraElement = miniFilmList.querySelector(
-        `.films-list__container`
-      );
+      const cardListExtraElement = miniFilmList.querySelector(`.films-list__container`);
 
       this._boardFilms
         .slice(0, Math.min(this._boardFilms.length, CARD_COUNT_MINI))
@@ -175,11 +164,11 @@ export default class Board {
 
   _renderLoadMoreButton(comments) {
     let renderedCardCount = CARD_COUNT_PER_STEP;
-    const loadMoreButtonComponent = new LoadMoreButtonView();
 
-    render(this._filmListComponent, loadMoreButtonComponent, RenderPosition.BEFOREEND);
 
-    loadMoreButtonComponent.setClickHandler(() => {
+    render(this._filmListComponent, this._loadMoreButtonComponent, RenderPosition.BEFOREEND);
+
+    this._loadMoreButtonComponent.setClickHandler(() => {
       this._boardFilms
         .slice(renderedCardCount, renderedCardCount + CARD_COUNT_PER_STEP)
         .forEach((boardCard) =>
@@ -187,15 +176,14 @@ export default class Board {
         );
       renderedCardCount += CARD_COUNT_PER_STEP;
       if (renderedCardCount >= this._boardFilms.length) {
-        loadMoreButtonComponent.remove();
-        loadMoreButtonComponent.removeElement();
+        remove(this._loadMoreButtonComponent);
+        this._loadMoreButtonComponent.removeElement();
       }
 
     });
   }
 
   _renderFilmList(comments) {
-    console.log(comments)
     this._renderCards(0, Math.min(this._boardFilms.length, CARD_COUNT_PER_STEP), comments);
 
     if (this._boardFilms.length > CARD_COUNT_PER_STEP) {

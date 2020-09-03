@@ -28,7 +28,7 @@ export const sortRating = (cardA, cardB) => {
     return weight;
   }
 
-  return cardA.rating - cardB.rating;
+  return cardB.rating - cardA.rating;
 };
 
 export const sortCardDown = (cardA, cardB) => {
