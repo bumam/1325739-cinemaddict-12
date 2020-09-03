@@ -11,7 +11,6 @@ const createFilmPopupTemplate = (card, comment) => {
     poster,
     description,
     rating,
-    year,
     duration,
     commentAmount,
     originalTitle,
@@ -19,9 +18,10 @@ const createFilmPopupTemplate = (card, comment) => {
     peoples,
     country,
     age,
-    release,
+    dueDate,
     bigGenre
   } = card;
+
 
   const {
     smile,
@@ -80,6 +80,13 @@ const createFilmPopupTemplate = (card, comment) => {
   const writers = createPeoples(peoples);
   const actors = createPeoples(peoples);
 
+  const date = dueDate !== null ?
+    dueDate.toLocaleString(`en-US`, {
+      day: `numeric`,
+      month: `long`,
+      year: `numeric`
+    }) :
+    ``;
 
   const genre = spanGenres.length > 1 ?
     `Genres` :
@@ -133,7 +140,7 @@ const createFilmPopupTemplate = (card, comment) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${release} ${year}</td>
+              <td class="film-details__cell">${date}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>

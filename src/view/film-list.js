@@ -1,16 +1,16 @@
 import AbstractView from "./abstract.js";
 
-const createTaskListTemplate = () => {
+const createCardListTemplate = () => {
   return `<section class="films-list">
   <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
 
       </section>`;
 };
 
-export default class TaskList extends AbstractView {
+export default class CardList extends AbstractView {
 
   getTemplate() {
-    return createTaskListTemplate();
+    return createCardListTemplate();
   }
 
 }

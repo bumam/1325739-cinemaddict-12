@@ -10,5 +10,4 @@ export default class Container extends AbstractView {
     return createContainerTemplate();
   }
 
-
 }

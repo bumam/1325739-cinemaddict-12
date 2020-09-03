@@ -1,14 +1,15 @@
-import AbstractView from "./abstract.js" ;
+import AbstractView from "./abstract.js";
 
 const createFilmCardTemplate = (card) => {
+
   const {
     title,
     poster,
     description,
     rating,
-    year,
     duration,
     genre,
+    dueDate,
     commentAmount,
     isFavorite,
     isWatchlist,
@@ -23,6 +24,12 @@ const createFilmCardTemplate = (card) => {
     }
     return str;
   };
+
+  const year = dueDate !== null ?
+    dueDate.toLocaleString({
+      year: `numeric`
+    }) :
+    ``;
 
   const descriptionLength = description.join();
 
@@ -60,7 +67,7 @@ const createFilmCardTemplate = (card) => {
 };
 
 
-export default class Task extends AbstractView {
+export default class Card extends AbstractView {
   constructor(card) {
     super();
     this._card = card;
