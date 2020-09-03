@@ -17,7 +17,6 @@ const getWeightForNullDate = (dateA, dateB) => {
   if (dateB === null) {
     return -1;
   }
-
   return null;
 };
 
