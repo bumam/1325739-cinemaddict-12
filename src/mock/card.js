@@ -2,7 +2,7 @@ import {
   getRandomIntInclusive,
   getRndElement,
   getRandomInteger
-} from "../utils.js";
+} from "../utils/common.js";
 
 const titles = [
   `The dance of life`,
@@ -56,10 +56,6 @@ const ages = [
   `18+`, `12+`, `0+`
 ];
 
-const releases = [
-  `01 April`, `11 October`, `07 June`
-];
-
 const generateDescription = () => {
   const descriptions = [
     `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
@@ -85,6 +81,19 @@ const generateDescription = () => {
   return array;
 };
 
+const generateDate = () => {
+
+  const maxDaysGap = 500;
+  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
+  const currentDate = new Date();
+
+  currentDate.setHours(23, 59, 59, 999);
+
+  currentDate.setDate(currentDate.getDate() + daysGap);
+
+  return new Date(currentDate);
+};
+
 const generateRaiting = () => {
   const a = getRandomIntInclusive(1, 9);
   const b = getRandomIntInclusive(1, 9);
@@ -103,7 +112,6 @@ export const generateCard = () => {
   const poster = getRndElement(posters);
   const description = generateDescription();
   const rating = generateRaiting();
-  const year = getRandomIntInclusive(1900, 2019);
   const duration = generateDuration();
   const genre = getRndElement(genres);
   const commentAmount = getRandomIntInclusive(0, 5);
@@ -113,14 +121,13 @@ export const generateCard = () => {
   const age = getRndElement(ages);
   const peoples = getMassive(peoplesExample);
   const bigGenre = getMassive(genres);
-  const release = getRndElement(releases);
+  const dueDate = generateDate();
 
   return {
     title,
     poster,
     description,
     rating,
-    year,
     duration,
     genre,
     commentAmount,
@@ -130,7 +137,7 @@ export const generateCard = () => {
     age,
     peoples,
     bigGenre,
-    release,
+    dueDate,
     isFavorite: Boolean(getRandomInteger(0, 1)),
     isWatchlist: Boolean(getRandomInteger(0, 1)),
     isWishlist: Boolean(getRandomInteger(0, 1))

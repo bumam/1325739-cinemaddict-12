@@ -1,32 +1,16 @@
-import {
-  createElement
-} from "../utils.js";
+import AbstractView from "./abstract.js";
 
-const createTaskListTemplate = () => {
+const createCardListTemplate = () => {
   return `<section class="films-list">
   <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
 
       </section>`;
 };
 
-export default class TaskList {
-  constructor() {
-    this._element = null;
-  }
+export default class CardList extends AbstractView {
 
   getTemplate() {
-    return createTaskListTemplate();
+    return createCardListTemplate();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
